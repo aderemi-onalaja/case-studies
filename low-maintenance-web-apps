@@ -1,0 +1,135 @@
+# Case Study: Low-Maintenance Apps & Websites
+
+This case study is part of my exploration into **software sustainability, architecture choices, and reducing long-term technical debt**.  
+I wanted to understand what kinds of apps or websites are considered **low maintenance**, what patterns reduce ongoing work, and where the biggest pitfalls (like feature creep) emerge.  
+
+---
+
+## What “Low Maintenance” Really Means (and What You Can’t Avoid)
+
+Before jumping to examples, it’s useful to define what “low maintenance” means in practice:
+
+- Few critical bugs / little emergency patching  
+- Stable, backward-compatible APIs & dependencies  
+- Minimal frequent updates required by external factors (OS changes, security patches, library changes)  
+- Self-service / good documentation / knowledge base so users require less support  
+- Automated testing, monitoring, alerts to catch regressions early  
+- Architecture that localizes change (so parts don’t all break when one area changes)  
+
+⚠️ No app is truly “zero maintenance.” Even “low maintenance” apps still require security updates, monitoring, and occasional updates (e.g. for new browser versions, dependency patches, etc.). The goal is to reduce *unexpected* or *urgent* maintenance.
+
+---
+
+## Examples / Archetypes of Relatively Low-Maintenance Apps / Websites
+
+Here are types of applications that tend to require less ongoing maintenance, along with examples or case studies to illustrate:
+
+| Archetype / Domain | Why Maintenance Tends to Be Lower | Risks or Caveats | Example / Case Study |
+|--------------------|----------------------------------|------------------|-----------------------|
+| **Content-oriented / informational sites** (brochure sites, blogs, documentation portals) | They change infrequently. The main “activity” is content updates, not core logic. The backend is relatively simple. | CMS upgrades, plugin security, template/theme changes, SEO changes | Many corporate websites use headless CMS + static site generation |
+| **Knowledge base / documentation portals / wiki-like apps** | Read-heavy, infrequently modified features, so the logic surface is smaller. | Search, versioning, access control, search index updates | Many SaaS products use platforms like ReadTheDocs, Docusaurus |
+| **Internal business dashboards / data reporting tools** | Internal use, limited external dependencies, slower evolution | Data source changes (e.g. schema changes), performance as data grows | Long-lived admin dashboards built on Django / Rails |
+| **“Narrow domain” workflow apps / micro-apps** | Single-purpose apps = less surface area for errors | Integrations, scaling issues | [Microapps](https://en.wikipedia.org/wiki/Microapp) |
+| **Low-code / no-code / composable apps** | Vendor manages most of the platform; less custom code | Platform lock-in, custom extensions can create debt | [LowCode Agency](https://www.lowcode.agency/case-studies), [Hostinger](https://www.hostinger.com/tutorials/low-code-trends) |
+| **API-first / thin client apps** | Thin frontend with stable backend reduces coupling | API versioning & dependency stability required | SaaS platforms with stable v1/v2 APIs |
+| **Static / Jamstack websites** | SSG + CDN reduces runtime logic and patch surface | Need rebuilds for content changes, client-side bugs | JAMstack sites (Hugo, Gatsby, Next.js in SSG mode) |
+
+### Real-World Case Studies
+- **Healthtech redesign**: Simplifying a patient management app reduced UI bugs and feature complexity ([Medium](https://medium.com/design-bootcamp/healthtech-case-study-a-webapp-for-patient-management-3bb4b87cbcc3)).  
+- **Codica progressive web apps**: PWAs reduced native app maintenance ([Codica](https://www.codica.com/case-studies/)).  
+- **No-code apps**: Bubble/Glide apps deployed with lower overhead ([LowCode Agency](https://www.lowcode.agency/case-studies)).  
+
+---
+
+## Design & Architectural Strategies That Reduce Ongoing Maintenance
+
+- **Strong modularization / componentization**  
+  Isolate changes with microservices, microapps, or modular frontend components.  
+
+- **Stable APIs / versioning**  
+  Deprecate slowly instead of breaking client compatibility.  
+
+- **Minimal external dependencies**  
+  Use stable libraries, avoid plugin overload, monitor advisories.  
+
+- **Automated testing & CI/CD**  
+  Catch regressions before users experience them.  
+
+- **Monitoring, errors & alerts**  
+  Proactive observability reduces firefighting maintenance.  
+
+- **Feature flagging / gradual rollouts**  
+  Deploy new features safely with rollback options.  
+
+- **Lean design / fewer features**  
+  More features = more bugs. Teams now prune unused features (see [feature deletion research on arXiv](https://arxiv.org/abs/2410.07370)).  
+
+- **Low-code / composability / managed services**  
+  Outsource infrastructure (e.g. auth, search, payments) to reliable providers.  
+
+- **Backward compatibility / deprecation paths**  
+  Maintain safe paths for older clients.  
+
+- **Documentation + knowledge base**  
+  Solid docs, error codes, and guided flows reduce user support load.  
+
+---
+
+## Trends Emerging (2025 and Beyond)
+
+- **Low-code / no-code adoption**  
+  By 2026, 75% of new apps expected to be built on low-code platforms ([Hostinger](https://www.hostinger.com/tutorials/low-code-trends)).  
+
+- **AI / automation in maintenance & DevOps**  
+  Automated patching, anomaly detection, and bug-fixing ([LinkedIn](https://www.linkedin.com/pulse/future-app-maintenance-trends-innovations-david-joseph-0lpac)).  
+
+- **Proactive monitoring & observability**  
+  Logs, metrics, tracing, and predictive maintenance ([iTrobes](https://www.itrobes.com/application-maintenance-and-support-trends/)).  
+
+- **Microservices / serverless architectures**  
+  Smaller units reduce patch scope and downtime.  
+
+- **Composable architecture**  
+  Replaceable “building blocks” instead of monolithic builds.  
+
+- **Edge computing**  
+  Shifting logic closer to the client to reduce backend dependency.  
+
+- **Feature pruning (“less is more”)**  
+  Removing rather than always adding features lowers maintenance surface.  
+
+- **Better package ecosystem tooling**  
+  Automated vulnerability monitoring, patching, and dependency freezing.  
+
+- **Zero downtime rollouts**  
+  Blue/green and canary deployments avoid downtime ([FlairsTech](https://flairstech.com/blog/zero-downtime-possible-app-maintenance-services)).  
+
+---
+
+## Trade-offs and Pitfalls
+
+When aiming for low maintenance, beware of:
+
+- **Platform lock-in** – vendor dependency with low-code or managed services.  
+- **Limited flexibility** – bespoke needs may outgrow composable/low-code solutions.  
+- **Neglected architecture debt** – shortcuts pile up if not refactored.  
+- **External changes out of your control** – OS/browser updates, third-party APIs, security issues.  
+- **Under-investing in monitoring** – assuming things won’t break leads to blind spots.  
+- **Feature creep / user demands** – pressure to add features grows the maintenance burden.  
+
+---
+
+## References
+
+- [Medium: Healthtech case study](https://medium.com/design-bootcamp/healthtech-case-study-a-webapp-for-patient-management-3bb4b87cbcc3)  
+- [Codica case studies](https://www.codica.com/case-studies/)  
+- [LowCode Agency case studies](https://www.lowcode.agency/case-studies)  
+- [Hostinger: Low-code trends](https://www.hostinger.com/tutorials/low-code-trends)  
+- [LinkedIn: Future of app maintenance](https://www.linkedin.com/pulse/future-app-maintenance-trends-innovations-david-joseph-0lpac)  
+- [iTrobes: Application maintenance & support trends](https://www.itrobes.com/application-maintenance-and-support-trends/)  
+- [TriState Technology: Software development trends](https://www.tristatetechnology.com/blog/top-software-development-trends)  
+- [FlairsTech: Zero downtime in app maintenance](https://flairstech.com/blog/zero-downtime-possible-app-maintenance-services)  
+- [arXiv: Feature deletion in long-lived apps](https://arxiv.org/abs/2410.07370)  
+- [Wikipedia: Microapp](https://en.wikipedia.org/wiki/Microapp)  
+
+---
